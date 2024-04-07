@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int                 @id @default(autoincrement())
+  username          String              @unique
+  password          String
+  name              String?
+  isAdmin           Boolean?            @default(false)
+  created_at        DateTime            @default(now())
+  updated_at        DateTime            @updatedAt
+  user              User_Profile?
+  liked_profiles    Liked_Profiles[]
+  download_profiles Download_Profiles[]
+  activePlan        Active_Plan?
+
+}
+
+model User_Profile {
+  id                 Int                @id @default(autoincrement())
+  first_name         String
+  middle_name        String
+  last_name          String
+  gender             String
+  dob                DateTime
+  age                Int
+  contact_number     BigInt             @unique
+  address_1          String
+  address_2          String?
+  city               String
+  height             Decimal
+  weight             Int?
+  color              String
+  religion           String
+  cast_or_community  String
+  mother_tongue      String
+  marital_status     String
+  dietary_preference String
+  occupation         String
+  income             Decimal
+  father_name        String
+  mother_name        String
+  mother_occupation  String
+  father_occupation  String
+  mother_native      String
+  father_native      String
+  family_contact_no  BigInt             @unique
+  number_of_siblings Int
+  brother            Int                @default(0)
+  sister             Int                @default(0)
+  father             Boolean?           @default(false)
+  mother             Boolean?           @default(false)
+  zodiac_sign        String
+  birth_time         String
+  birth_place        String
+  image              String
+  horoscope_img      String[]
+  created_at         DateTime           @default(now())
+  updated_at         DateTime           @updatedAt
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             Int                @unique
+  likedBy            Liked_Profiles?
+  downloadBy         Download_Profiles?
+}
+
+model Liked_Profiles {
+  id                Int          @id @default(autoincrement())
+  userProfileLikeBy User         @relation(fields: [userProfileIdById], references: [id], onDelete: Cascade)
+  userProfileIdById Int          @unique
+  likedToUser       User_Profile @relation(fields: [likedToId], references: [id], onDelete: Cascade)
+  likedToId         Int          @unique
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @updatedAt
+}
+
+model Download_Profiles {
+  id                BigInt       @id @default(autoincrement())
+  downloadProfileBy User         @relation(fields: [downloadProfileId], references: [id])
+  downloadProfileId Int          @unique
+  downloadToUser    User_Profile @relation(fields: [downloadToId], references: [id], onDelete: Cascade)
+  downloadToId      Int          @unique
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @updatedAt
+}
+
+model Plans {
+  id         Int          @id @default(autoincrement())
+  plan_name  String
+  plan_desc1 String
+  plan_desc2 String
+  plan_desc3 String?
+  plan_price Int
+  isActive   Boolean      @default(false)
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  activePlan Active_Plan?
+}
+
+model Active_Plan {
+  id                  Int      @id @default(autoincrement())
+  activeUser          User     @relation(fields: [activeUserId], references: [id])
+  activeUserId        Int      @unique
+  activePlanId        Int      @unique
+  activePlan          Plans    @relation(fields: [activePlanId], references: [id])
+  isActive            Boolean  @default(false)
+  member_disply_limit Int      @default(0)
+  viwed_profile       Int      @default(0)
+  remaining           Int      @default(0)
+  valid_until         DateTime
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}
