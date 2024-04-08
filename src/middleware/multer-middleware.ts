@@ -1,13 +1,18 @@
+import { MiddlewareHandler} from 'hono';
 import multer from 'multer'
 
+// Define multer storage configuration
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "./.wrangler/temp")
+        cb(null, "./.wrangler/temp");
     },
-    filename: function (req, file, callback) {
-        
-        callback(null,file.originalname);
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
     }
-})
+});
 
-export const upload = multer({storage})
+// Create multer middleware to handle file uploads
+export const multerUploadMiddleware = multer({ storage })
+
+
+

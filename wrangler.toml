@@ -1,7 +1,7 @@
 name = "matrimony-backend"
 compatibility_date = "2023-12-01"
 workers_dev = true
-
+node_compat = true
 [vars]
 DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiM2I4MDUzOGEtOTYyMy00NDY4LTk0ODgtOGNmNTIxMDI3ZmRmIiwidGVuYW50X2lkIjoiODY2N2VkNDNjNGQzMGI4ZjI3NTI5MzM4YmI3ZGJkODVmNDQ5YTNiOTZlYTU2ZmY5Nzg3ODhhZjU5YmQ1NzRjNCIsImludGVybmFsX3NlY3JldCI6IjBjYzQ3YTNlLTFkZjctNDFhNy04YTdmLTQ5NzZlOGY1ZTZjZSJ9.n6PcvbyxdhQSqnZ2XFMJipUxpTyOHNEa7hq0SMDICSo"
 JWT_SECRET = "parasbharde"
@@ -16,9 +16,9 @@ CLOUDINARY_API_SECRET = 'K_dtk0gZ-tN9gwlMQqdc7dWpKk8'
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = "R2_Upload"
+bucket_name = "hon-r2-upload"
 
 # [[d1_databases]]
 # binding = "DB"

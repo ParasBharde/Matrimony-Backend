@@ -6,12 +6,17 @@ import { sign } from "hono/jwt";
 import { hashPassword } from "../util/hashed-password";
 import bcrypt from 'bcryptjs';
 
+
 const userRouter = new Hono<{
     Bindings: {
         DATABASE_URL: string,
         JWT_SECRET: string
     }
 }>()
+
+userRouter.get('/', async (c) => {
+    return c.json(c.env.JWT_SECRET)
+})
 
 userRouter.post('/signup', async (c) => {
     const prisma = new PrismaClient({
@@ -32,7 +37,6 @@ userRouter.post('/signup', async (c) => {
                 data: {
                     username: body.username,
                     password: hashedPassword,
-                    name: body.name,
                     isAdmin: body.isAdmin
                 }
             })

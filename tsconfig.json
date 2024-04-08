@@ -8,10 +8,10 @@
       "ESNext"
     ],
     "types": [
-      "@cloudflare/workers-types","@types/node", 
+      "@cloudflare/workers-types","@types/node"
     ],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
+    "jsxImportSource": "hono/jsx"
     
   },
 }
